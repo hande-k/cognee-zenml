@@ -9,6 +9,7 @@ from steps.cognify_tasks import (
     summarize_text_step,
     load_data_docs_step
 )
+from steps.export_cognee_db_step import export_cognee_db_step
 from steps.graph_visualization import visualize_graph_step 
 
 @pipeline(enable_cache=False)
@@ -27,3 +28,5 @@ def cognee_cognify_pipeline():
     final = add_data_points_step(combined)
 
     visualization = visualize_graph_step(after=final, destination_file_path="/Users/handekafkas/my_graph.html")
+
+    db_archive = export_cognee_db_step(after=visualization)

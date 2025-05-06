@@ -56,8 +56,15 @@ if __name__ == "__main__":
     final_data = final_output_artifact.load()
     print(f"Final data points: {final_data}")
     print("Pipelines Complete!")
+    
     visual_step_info = cognify_pipeline_run.steps["visualize_graph_step"]
     print(f"Visualization step info: {visual_step_info}")
-
     artifact = visual_step_info.outputs["output"][0]
     html_str = artifact.load()
+
+    db_step_info = cognify_pipeline_run.steps["export_cognee_db_step"]
+    db_artifact = db_step_info.outputs["output"][0]
+    zip_path = db_artifact.load()  # returns the local path to the 'cognee_db.zip'
+    print("Cognee DB archive is at:", zip_path)
+    db_artifact_id = db_artifact.id
+    print("DB artifact ID is:", db_artifact_id)

@@ -11,26 +11,24 @@ if __name__ == "__main__":
     ]
     print("=== Running Cognee Add Pipeline ===")
     add_pipe = cognee_add_pipeline.with_options(
-    steps={
-        "resolve_data_directories_step": {
-            "parameters": {
-                "data_input": text_data
-            }
-        },
-        "ingest_data_step": {
-            "parameters": {
-                "dataset_name": "nlp_dataset",
-                    "node_set": ["demo_node_set"]
+        steps={
+            "resolve_data_directories_step": {"parameters": {"data_input": text_data}},
+            "ingest_data_step": {
+                "parameters": {
+                    "dataset_name": "nlp_dataset",
+                    "node_set": ["demo_node_set"],
                 }
-            }
+            },
         }
     )
 
     add_run = add_pipe()
-    
+
     # After it finishes, retrieve the artifact from the `ingest_data_step`.
     add_pipeline_run = Client().get_pipeline_run(add_run.name)
-    data_docs_artifact = add_pipeline_run.steps["ingest_data_step"].outputs["cognee_data_docs"][0]
+    data_docs_artifact = add_pipeline_run.steps["ingest_data_step"].outputs[
+        "cognee_data_docs"
+    ][0]
     data_docs = data_docs_artifact.load()  # This is a list[Data]
     print("Number of Data docs loaded:", len(data_docs))
     print("Sample doc:", data_docs[0] if data_docs else None)
@@ -40,23 +38,19 @@ if __name__ == "__main__":
 
     print("=== Running Cognee Cognify Pipeline ===")
     cognify_pipe = cognee_cognify_pipeline.with_options(
-        steps={
-            "extract_chunks_step": {
-                "parameters": {
-                    "max_chunk_size": 512
-                }
-            }
-        }
+        steps={"extract_chunks_step": {"parameters": {"max_chunk_size": 512}}}
     )
     cognify_run = cognify_pipe()
 
     # check each step's outputs
     cognify_pipeline_run = Client().get_pipeline_run(cognify_run.name)
-    final_output_artifact = cognify_pipeline_run.steps["add_data_points_step"].outputs["output"][0]
+    final_output_artifact = cognify_pipeline_run.steps["add_data_points_step"].outputs[
+        "output"
+    ][0]
     final_data = final_output_artifact.load()
     print(f"Final data points: {final_data}")
     print("Pipelines Complete!")
-    
+
     visual_step_info = cognify_pipeline_run.steps["visualize_graph_step"]
     print(f"Visualization step info: {visual_step_info}")
     artifact = visual_step_info.outputs["output"][0]

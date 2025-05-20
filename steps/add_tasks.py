@@ -10,27 +10,25 @@ from typing_extensions import Annotated
 
 @step
 def resolve_data_directories_step(
-    data_input: Union[str, List[str]],
-    include_subdirectories: bool = True
+    data_input: Union[str, List[str]], include_subdirectories: bool = True
 ) -> List[str]:
     """
     Calls cognee's async `resolve_data_directories()`.
     """
     return asyncio.run(
         resolve_data_directories(
-            data=data_input,
-            include_subdirectories=include_subdirectories
+            data=data_input, include_subdirectories=include_subdirectories
         )
     )
+
 
 @step
 def ingest_data_step(
     resolved_paths: List[str],
     dataset_name: str = "main_dataset",
-    node_set: Optional[List[str]] = None
+    node_set: Optional[List[str]] = None,
 ) -> Annotated[
-    List[Data],
-    ArtifactConfig(name="cognee_data_docs")  # custom name
+    List[Data], ArtifactConfig(name="cognee_data_docs")  # custom name
 ]:
     """
     Calls cognee's async `ingest_data()` to create or update Data objects.

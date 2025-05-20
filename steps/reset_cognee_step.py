@@ -15,6 +15,6 @@ def reset_cognee_data() -> None:
         await cognee.prune.prune_data()
         await cognee.prune.prune_system(metadata=True)
         await setup()
-    
+
     asyncio.run(_reset())
     print("Cognee data reset complete.\n")

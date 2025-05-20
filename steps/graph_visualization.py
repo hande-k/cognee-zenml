@@ -5,6 +5,7 @@ from zenml import step
 # Import the async function
 from cognee.api.v1.visualize.visualize import visualize_graph
 
+
 @step
 def visualize_graph_step(destination_file_path: Optional[str] = None) -> str:
     """

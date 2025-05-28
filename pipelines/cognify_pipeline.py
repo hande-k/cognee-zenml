@@ -1,4 +1,5 @@
 from zenml import pipeline
+import os
 from steps.cognify_tasks import (
     add_data_points_step,
     check_permissions_step,
@@ -28,8 +29,12 @@ def cognee_cognify_pipeline():
 
     final = add_data_points_step(combined)
 
+    # Define location where to store html visualization of graph
+    home_dir = os.path.expanduser("~")
+    destination_file_path = os.path.join(home_dir, "cognee_graph_visualization.html")
+
     visualization = visualize_graph_step(
-        after=final, destination_file_path="/Users/handekafkas/my_graph.html"
+        after=final, destination_file_path=destination_file_path
     )
 
     db_archive = export_cognee_db_step(after=visualization)

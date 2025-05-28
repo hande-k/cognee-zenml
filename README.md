@@ -1,7 +1,7 @@
 # cognee-zenml simple demo
 
 - Clone https://github.com/zenml-io/zenml/pull/3529 locally and run this project in the same venv
-- set cognee env variables
+- set cognee env variables (Use your OpenAI API key for LLM_API_KEY)
 - run run_pipelines.py to add a sample text to cognee store and generate a knowledge graph -> copy the artifact_id
 - run python run_search.py <artifact_id> "<query_text>"
 

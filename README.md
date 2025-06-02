@@ -8,10 +8,32 @@
 
 - This repository contains an initial subset of cognee tasks implemented as ZenML steps and pipelines. It’s a friendly starting point that shows how to integrate cognee’s knowledge-building tasks with ZenML’s orchestration. Users can easily extend this demo by plugging in additional cognee tasks or adding their own custom steps to the pipeline. 
 
-## how to run the example 
-- Update bcrypt = { version = ">=4.0.1,<5" } dependency of zenml locally and run this project in the same venv
-- set cognee env variables (Use your OpenAI API key for LLM_API_KEY)
-- run run_pipelines.py to add a sample text to cognee store and generate a knowledge graph -> copy the artifact_id
-- run python run_search.py <artifact_id> "<query_text>"
+## How to run this example?
+
+### Setting up ZenML editable version
+- create a python venv in your preferred directory `python3.11 -m venv venv`
+- clone zenml to the same directory `gh repo clone zenml-io/zenml`
+- activate your venv and navigate to zenml `cd zenml`
+- in pyproject.toml, update bcrypt = { version = ">=4.0.1,<5" } 
+- run `pip install --upgrade pip && pip install -e .`
+
+*now you have the updated version of local zenml in your venv.*
+
+### Setting up cognee & other dependencies & env variables
+
+- clone cognee-zenml to your preferred directory `gh repo clone hande-k/cognee-zenml`
+- copy/paste the `.env.template` file and rename it to `.env`
+- set your **OpenAI API** key for `LLM_API_KEY`
+- navigate to cognee-zenml directory within the venv you created earlier (which you have your local zenml)
+- run `pip install -r requirements.txt` to install cognee and other dependencies. 
+
+*now you have your environment ready.*
+
+### Run an example
+
+- run `python run_pipelines.py` to clean-up all existing data from cognee, add the sample text(`data/sample_text.txt`) to cognee store and generate a knowledge graph
+- the location of the graph visualization and the zenml artifact_id will be printed.
+- copy that artifact_id to use it in the below step to query cognee.
+- run `python run_search.py <artifact_id> "<query_text>"` 
 
 
